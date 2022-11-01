@@ -1,3 +1,5 @@
 matplotlib
 numpy
 scikit-image
+ipykernel
+scipy
