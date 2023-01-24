@@ -1,38 +1,43 @@
-# Let:
-#  FT – forward Fourier transform
-#  IFT – inverse Fourier transform
-#  i – the imaginary unit, √−1 (square root of −1)
-#  exp – exponential function (exp(x) = ex)
-#  Target and Source be the Target and Source Amplitude planes respectively
-#  A, B, C & D be complex planes with the same dimension as Target and Source
-#  Amplitude – Amplitude-extracting function:
-#    e.g. for complex z = x + iy, amplitude(z) = sqrt(x·x + y·y)
-#        for real x, amplitude(x) = |x|
-#  Phase – Phase extracting function:
-#    e.g. Phase(z) = arctan(y / x)
-# end Let
-#
-# algorithm Gerchberg–Saxton(Source, Target, Retrieved_Phase) is
-#     A := IFT(Target)
-#     while error criterion is not satisfied
-#         B := Amplitude(Source) × exp(i × Phase(A))
-#         C := FT(B)
-#         D := Amplitude(Target) × exp(i × Phase(C))
-#         A := IFT(D)
-#     end while
-#     Retrieved_Phase = Phase(A)
 
-
-
+import matplotlib.pyplot as plt
+import numpy as np
+from numpy.fft import fftn, ifftn, fftshift, ifftshift
+from skimage import io, color, transform
 from scipy.fft import fft, ifft
 import cmath
-import matplotlib.pyplot as plt
 import PIL.Image as img
 from numpy import asarray
-import numpy as np
 
 
 
+"""
+GS ALGORITHM from definition
+Let:
+    FT – forward Fourier transform
+    IFT – inverse Fourier transform
+    i – the imaginary unit, √−1 (square root of −1)
+    exp – exponential function (exp(x) = ex)
+    Target and Source be the Target and Source Amplitude planes respectively
+    A, B, C & D be complex planes with the same dimension as Target and Source
+    Amplitude – Amplitude-extracting function:
+    e.g. for complex z = x + iy, amplitude(z) = sqrt(x·x + y·y)
+        for real x, amplitude(x) = |x|
+    Phase – Phase extracting function:
+    e.g. Phase(z) = arctan(y / x)
+end Let
+
+algorithm Gerchberg–Saxton(Source, Target, Retrieved_Phase) is
+    A := IFT(Target)
+    while error criterion is not satisfied
+        B := Amplitude(Source) × exp(i × Phase(A))
+        C := FT(B)
+        D := Amplitude(Target) × exp(i × Phase(C))
+        A := IFT(D)
+    end while
+    Retrieved_Phase = Phase(A)
+
+
+"""
 def padwidth(N, array): #0-padding function
     padwidth = ((int((N - array.shape[0]) / 2), int((N - array.shape[0]) / 2)),
                                     (int((N - array.shape[1]) / 2), int((N - array.shape[1]) / 2)),)
@@ -201,5 +206,9 @@ def main():
     # plt.show()
     # plt.imshow(abs(result[1]))
     # plt.show()
+
+
+
+
 
 main()
